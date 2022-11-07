@@ -6,7 +6,7 @@
 /*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:26:12 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/06 05:54:09 by mounadi05        ###   ########.fr       */
+/*   Updated: 2022/11/07 05:01:46 by mounadi05        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,10 @@ typedef struct mapInfo
 	t_direction	p_direction;
 	t_data		data;
 	t_mlx		mlx;
+	int len_x;
+	int len_y;
+	double d_wall;
+	double point ; 
 }	t_mapinfo;
 
 //parsing
