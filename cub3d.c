@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ytaya <ytaya@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 20:03:45 by ytaya             #+#    #+#             */
-/*   Updated: 2022/10/30 05:47:56 by ytaya            ###   ########.fr       */
+/*   Updated: 2022/11/09 03:58:45 by mounadi05        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	main(int argc, char	**argv)
 	t_mapinfo	*map;
 
 	if (argc == 2)
-	{
+	{    
+
 		map = map_parse(argv[1]);
 		map_free(map);
 	}
