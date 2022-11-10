@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_helper6.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ytaya <ytaya@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 19:28:08 by ytaya             #+#    #+#             */
-/*   Updated: 2022/10/30 05:21:30 by ytaya            ###   ########.fr       */
+/*   Updated: 2022/11/10 07:21:43 by mounadi05        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static t_bool	init_player(t_mapinfo **param, int i, int j)
 	{
 		(*param)->p_x = j * TAILSIZE + TAILSIZE / 2;
 		(*param)->p_y = i * TAILSIZE + TAILSIZE / 2;
+		(*param)->mp_x = j;
+		(*param)->mp_y = i;
 		if ((*param)->map[i][j] == 'N')
 			(*param)->p_direction = N;
 		else if ((*param)->map[i][j] == 'S')
