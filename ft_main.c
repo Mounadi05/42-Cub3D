@@ -7,96 +7,68 @@ void	my_mlx_pixel_put(t_mapinfo	*result, int x, int y, int color)
 }
 int draw_xmp(t_mapinfo *result,int x ,int y)
 { 
-    if (y%64 < 0)
-        y = 0;
-    if (x % 64 < 0)
-        x = 0;
+    
     return result->add_wall[(y%64) * 64 + (x%64)];
 }
-
-// int get_color(double p)
-// {
-//     int a = 0;
-//     if (p > 0 && p <= 1.7508)
-//         a = 0xF0FF0F;
-//     else if (p > 1.7508 && p <= 3.14159)
-//         a = 0x03fca9;
-//     else if (p > 3.14159 && p <= 4.71239)
-//         a = 0x0313fc;
-//     else
-//         a = 0xdffc03;
-//     return a;
-// }
+ 
 void draw_wall(t_mapinfo *result)
 {
     double dis;
     int index = 0;
     int wall = (result->mlx.width/result->len_ry) + 1;
-   // static int f = 255;
-    while (index < result->len_ry){
+      while (index < result->len_ry){
         dis = (64 / floorf(result->d_wall[index])) * (result->mlx.height/tan(0.53));
         dis = floorf(dis);
-       // f = get_color(result->point[index]);
         int max = result->mlx.height/2 + (int)dis/2 + 1;
-        for(int a = result->mlx.height/2 - dis/2 + 1; a <= result->mlx.height &&  a <= max; a++)
-            for(int b = 0; b <= wall && b + (index * wall) <= result->mlx.width ; b++)
-                my_mlx_pixel_put(result,b + (index * wall),a ,draw_xmp( ));
-   
+        for(int a = result->mlx.height/2 - dis/2 + 1; a < result->mlx.height &&  a <= max; a++)
+        {
+            int y = (double)(a - (result->mlx.height/2 - (dis/2)+1)) * (64.0 / dis);
+            for(int b = 0; b <= wall && b + (index * wall) < result->mlx.width ; b++)
+                my_mlx_pixel_put(result,b + (index * wall) ,a ,draw_xmp(result, result->w_x[index], y));
+        }
         index++;
     }
-    //f += 255 * 2;
-
 }
 void raycasting(t_mapinfo	*result)
 {
     double radius = 0;
-    double i = result->view - 0.525;
+    double i = result->view - 0.5236;
     radius = 0;
     int in = 0;
     int a = 0;
     result->d_wall = malloc(8000);
-    result->w_x = malloc(4000);
-    result->w_y = malloc(4000);
+    result->w_x = malloc(8000);
     result->point = malloc(8000);
-    while(i < result->view + 0.525)
+    while(i < result->view + 0.5236)
     {   
         radius = 0;
-        while(1 && (int)(result->p_x + cos(i) * radius) < result->mlx.width &&(int)(result->p_y + sin(i) * radius)< result->mlx.height ){
-            if ( result->map[(int)(result->p_y + sin(i) * radius)/64][(int)(result->p_x + cos(i) * radius)/64] && result->map[(int)(result->p_y + sin(i) * radius)/64][(int)(result->p_x + cos(i) * radius)/64] != '1')
+        while((int)(result->p_x + cos(i) * radius) < result->mlx.width && (int)(result->p_y + sin(i) * radius) < result->mlx.height ){
+            if (result->map[(int)(result->p_y + sin(i) * radius)/64][(int)(result->p_x + cos(i) * radius)/64] != '1')
             {
              // my_mlx_pixel_put(result,result->p_x + cos(i) * radius,result->p_y + sin(i) * radius,0xf0fff0);
                  ;
             }
-            else
+            else if (result->map[(int)(result->p_y + sin(i) * (radius - 1))/64][(int)(result->p_x + cos(i) * (radius))/64] != '1')
             {   
+                result->point[in] = 1.0;
                 result->d_wall[in] = radius * cos(result->view - i);
-                result->w_x[in] =  result->p_x   * radius;
-                result->w_y[in] = result->p_y  * radius;
-                result->point[in++] = result->view;
+                result->w_x[in++] = (int)(result->p_x + cos(i) * (radius));
                 break;
             }
-            radius++;
+            else if (result->map[(int)(result->p_y + sin(i) * (radius))/64][(int)(result->p_x + cos(i) * (radius - 1))/64] != '1')
+            {
+                result->d_wall[in] = radius* cos(result->view - i);
+                result->point[in] = 0.0;
+                result->w_x[in++] = (int)(result->p_y + sin(i) * (radius));
+                break;      
+            }
+            radius +=1;
         }
-        i+=0.003;
+        i+=0.002;
         a++;
     }
     result->len_ry = a;
-   draw_wall(result);
-}
- 
-void draw_player(t_mapinfo	*result,int l){
-    double radius = 0;
-    double i;
-    while(radius < 4)
-    {
-        i = 0;
-        while(i < 40)
-        {
-            my_mlx_pixel_put(result,(result->mp_x * l) + cos(i) * radius,(result->mp_y * l) + sin(i) * radius,0x000000);
-            i+=0.5;
-        }
-        radius++;
-    }
+    draw_wall(result);
 }
 
 void draw_Square(t_mapinfo	*result,int y, int x,int color,int l)
@@ -113,25 +85,6 @@ void draw_Square(t_mapinfo	*result,int y, int x,int color,int l)
         }
         i++;
     }
-}
-
-void draw_map(t_mapinfo	*result)
-{
-    int i = 0;
-    int j = 0;
-    int l = 400/result->len_x;
-    while(result->map[i])
-    {
-        j = 0;
-        while(result->map[i][j])
-        {
-            if( result->map[i][j] && result->map[i][j] == '1')
-                draw_Square(result,i*l,j*l,0xFF0000,l);
-            j++;
-        }
-        i++;
-    }
-    draw_player(result,l);
 }
 
 void draw_nowall(t_mapinfo *result)
@@ -171,15 +124,15 @@ void draw_flor(t_mapinfo *result)
     }
 }
 int update(t_mapinfo	*result){
-    mlx_destroy_image(result->mlx.ptr,result->data.img);
-    result->data.img = mlx_new_image(result->mlx.win, result->mlx.width, result->mlx.height);
-    result->data.addr = (int *)mlx_get_data_addr(result->data.img, &result->data.bits_per_pixel, &result->data.line_length,&result->data.endian);
-   draw_nowall(result);
-   draw_flor(result);
-    
-    raycasting(result);
-    draw_map(result);
-    mlx_put_image_to_window(result->mlx.ptr, result->mlx.win, result->data.img, 0, 0);
+   
+        usleep(100);
+        mlx_destroy_image(result->mlx.ptr,result->data.img);
+        result->data.img = mlx_new_image(result->mlx.win, result->mlx.width, result->mlx.height);
+        result->data.addr = (int *)mlx_get_data_addr(result->data.img, &result->data.bits_per_pixel, &result->data.line_length,&result->data.endian);
+        draw_nowall(result);
+        draw_flor(result);
+        raycasting(result);
+        mlx_put_image_to_window(result->mlx.ptr, result->mlx.win, result->data.img, 0, 0);
 
     return 1;
 }
@@ -187,6 +140,7 @@ void up(t_mapinfo	*result)
 {        
     if (result->map[(int)(result->p_y + 20 * sin(result->view))/64][(int)(result->p_x + 20 * cos(result->view))/64] != '1')
     {   
+        result->active = 1;  
         result->p_x += 15 * cos(result->view);
         result->p_y += 15 * sin(result->view);
     }
@@ -194,20 +148,25 @@ void up(t_mapinfo	*result)
 void down(t_mapinfo	*result)
 {
     if (result->map[(int)((result->p_y - 20 * sin(result->view))/64)][(int)(result->p_x - 20 * cos(result->view))/64] != '1')
-     {            
+    {     
+        result->active = 1;       
         result->p_x -= 15 * cos(result->view);
         result->p_y -= 15 * sin(result->view);
     }
 }
 void right(t_mapinfo	*result)
 {
+    result->active = 1;  
     result->view += 0.2;
- 
+    result->active= 1;
+
 }
 void left(t_mapinfo	*result)
 {
+      result->active = 1;  
     result->view -= 0.2;
- 
+    result->active= 1;
+
 }
 int move(int key ,t_mapinfo	*result)
 {   
@@ -234,7 +193,7 @@ void ft_main	(t_mapinfo	*result)
     int w = 64;
     int bits_per_pixel;
     int line_length;
-   int endian ;
+    int endian ;
     result->img_wall = mlx_xpm_file_to_image(result->mlx.ptr,result->no, &h,&w);
     result->add_wall = (int *)mlx_get_data_addr(result->img_wall, &bits_per_pixel, &line_length,&endian);
    // draw_player(result);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_helper4.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ytaya <ytaya@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:38:17 by ytaya             #+#    #+#             */
-/*   Updated: 2022/10/29 20:27:24 by ytaya            ###   ########.fr       */
+/*   Updated: 2022/11/13 06:16:06 by mounadi05        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,8 @@ static void	init_color(int i, t_color *color, char **arr)
 static t_color	*valide_color_helper(int i, t_color *color)
 {
 	if (i != 3)
-	{
 		return (NULL);
-	}
-	else
-		return (color);
+	return (color);
 }
 
 t_color	*is_valide_color(char *param)
