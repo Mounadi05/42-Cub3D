@@ -18,4 +18,4 @@ lib = libft.a
 name = cub3D
 mlx = -lmlx -framework OpenGL -framework AppKit
 all :
-	gcc  -Wall -Wextra -Werror -O3 $(mlx) $(src) $(libft) cub3d.c  -g  -o $(name) -fsanitize=address -g
+	gcc  -Wall -Wextra -Werror -O3 $(mlx) $(src) $(libft) cub3d.c   -o $(name)  

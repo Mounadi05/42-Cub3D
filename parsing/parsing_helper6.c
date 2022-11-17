@@ -6,7 +6,7 @@
 /*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 19:28:08 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/12 01:12:15 by mounadi05        ###   ########.fr       */
+/*   Updated: 2022/11/17 00:47:01 by mounadi05        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,9 @@ static t_bool	init_player(t_mapinfo **param, int i, int j)
 	|| (*param)->map[i][j] == 'W'
 	|| (*param)->map[i][j] == 'E')
 	{
-		(*param)->p_x = (j * TAILSIZE) + (TAILSIZE / 2);
-		(*param)->p_y = (i * TAILSIZE )+ (TAILSIZE / 2);
-		(*param)->mp_x = j;
-		(*param)->mp_y = i;
+		(*param)->p_x = (j * TAILSIZE)  + (TAILSIZE / 2);
+		(*param)->p_y = (i * TAILSIZE ) + (TAILSIZE / 2);
+	
 		if ((*param)->map[i][j] == 'N')
 			(*param)->p_direction = N;
 		else if ((*param)->map[i][j] == 'S')

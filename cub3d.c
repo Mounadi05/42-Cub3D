@@ -6,7 +6,7 @@
 /*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 20:03:45 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/09 03:58:45 by mounadi05        ###   ########.fr       */
+/*   Updated: 2022/11/17 00:44:03 by mounadi05        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,25 @@ void	map_free(t_mapinfo *map)
 	int	i;
 
 	i = 0;
-	free(map->no);
-	free(map->so);
-	free(map->we);
-	free(map->ea);
-	free(map->f);
-	free(map->c);
-	if (map->map)
-	{
-		while (map->map[i])
+	if (map)
+	{		
+		free(map->no);
+		free(map->so);
+		free(map->we);
+		free(map->ea);
+		free(map->f);
+		free(map->c);
+		if (map->map)
 		{
-			free(map->map[i]);
-			i++;
+			while (map->map[i])
+			{
+				free(map->map[i]);
+				i++;
+			}
+			free(map->map);
 		}
-		free(map->map);
 	}
-	free(map);
+	free(map);	
 }
 
 int	main(int argc, char	**argv)
@@ -41,7 +44,6 @@ int	main(int argc, char	**argv)
 
 	if (argc == 2)
 	{    
-
 		map = map_parse(argv[1]);
 		map_free(map);
 	}

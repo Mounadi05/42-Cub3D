@@ -6,7 +6,7 @@
 /*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:26:12 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/16 21:06:10 by mounadi05        ###   ########.fr       */
+/*   Updated: 2022/11/17 04:02:57 by mounadi05        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 
 typedef struct	s_data {
 	void	*img;
-	int	    *addr;
+	int 	    *addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
@@ -103,16 +103,20 @@ typedef struct mapInfo
 	t_direction	p_direction;
 	t_data		data;
 	t_mlx		mlx;
-	int len_x;
-	int len_y;
 	double *d_wall;
 	int len_ry;
 	int wall;
-	void *img_wall;
-	int * add_wall;
+	void *img_wall_no;
+	void *img_wall_so;
+	void *img_wall_we;
+	void *img_wall_ea;
+	int * add_wall_no;
+	int * add_wall_so;
+	int * add_wall_we;
+	int * add_wall_ea;
 	int *w_x;
-	int *w_y;
-	double *point;
+	double *point_x;
+	double *point_y;
 	int active;
 }	t_mapinfo;
 

@@ -6,7 +6,7 @@
 /*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:09:51 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/09 03:58:37 by mounadi05        ###   ########.fr       */
+/*   Updated: 2022/11/17 01:42:38 by mounadi05        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,7 @@ t_mapinfo	*map_parse(char *filename)
 {
 	t_mapinfo	*result;
 	int			fd;
-	int i = 0;
-	int j = 0;
-	int a = 0;
+	
 	result = NULL;
 	if (valide_extention(filename, ".CUB"))
 	{
@@ -119,17 +117,7 @@ t_mapinfo	*map_parse(char *filename)
 			if (valid_map(result->map) && check_player(&result))
 			{
 				result->view = convert(result->p_direction);
-				while(result->map[i])
-				{
-					j = 0;
-					while(result->map[i][j])
-						j++;
-					i++;
-					if (a < j)
-						a = j;
-				}
-				result->len_x = a;
-				result->len_y = i;
+				result->active = 1;
 				ft_main(result);
 			}
 			else
