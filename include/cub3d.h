@@ -6,7 +6,7 @@
 /*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:26:12 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/17 23:56:08 by mounadi05        ###   ########.fr       */
+/*   Updated: 2022/11/18 01:49:40 by mounadi05        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define KEY_RIGHT 124
 # define KEY_DOWN 125
 # define KEY_UP 126
+# define KEY_ESC 53
 
 
 typedef struct	s_data {
@@ -95,6 +96,8 @@ typedef struct mapInfo
 	double *d_wall;
 	int len_ry;
 	int wall;
+	int floor;
+	int ceil;
 	void *img_wall_no;
 	void *img_wall_so;
 	void *img_wall_we;

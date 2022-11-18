@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_helper6.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ytaya <ytaya@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 19:28:08 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/17 03:35:48 by ytaya            ###   ########.fr       */
+/*   Updated: 2022/11/18 01:34:36 by mounadi05        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static t_bool	init_player(t_mapinfo **param, int i, int j)
 		(*param)->p_x = j * TAILSIZE + TAILSIZE / 2;
 		(*param)->p_y = i * TAILSIZE + TAILSIZE / 2;
 		if ((*param)->map[i][j] == 'N')
-			(*param)->p_direction = 4.71;
+			(*param)->p_direction = 1.571 ;
 		else if ((*param)->map[i][j] == 'S')
-			(*param)->p_direction = 1.571;
+			(*param)->p_direction = 4.71;
 		else if ((*param)->map[i][j] == 'W')
 			(*param)->p_direction = PI;
 		else if ((*param)->map[i][j] == 'E')

@@ -1,5 +1,9 @@
 #include "include/cub3d.h"
-
+int	ft_close(t_mapinfo	*result)
+{
+	mlx_destroy_window(result->mlx.ptr,result->mlx.win);
+	exit(0);
+}
 void	my_mlx_pixel_put(t_mapinfo	*result, int x , int y, int color)
 {
     if (x >= 0 && y >= 0 &&  x < result->mlx.width && y < result->mlx.height)
@@ -12,16 +16,21 @@ int draw_xmp(t_mapinfo *result,int x ,int y,double v_x,double v_y)
         x = 0;
     if (y %64 < 0)
         y = 0;
-    if (v_x == 0)
+    if (v_y == 0)
         return result->add_wall_no[(y%64) * 64 + (x%64)];
-    if(v_x == 63)
+    else if(v_y == 63)
         return result->add_wall_so[(y%64) * 64 + (x%64)];
-    if(v_y == 63)
+    else if(v_x == 0)
         return result->add_wall_we[(y%64) * 64 + (x%64)];
-    return result->add_wall_ea[(y%64) * 64 + (x%64)];
-
+    else
+        return result->add_wall_ea[(y%64) * 64 + (x%64)];
+     
 }
- 
+
+int c_color(int r, int g, int b)
+{   
+    return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
+}
 void draw_wall(t_mapinfo *result)
 {
     double dis;
@@ -31,7 +40,6 @@ void draw_wall(t_mapinfo *result)
     while (index < result->len_ry)
     {
         dis = (64 / floorf(result->d_wall[index])) * (result->mlx.height/tan(0.53));
-        dis = floorf(dis);
         int max = result->mlx.height/2 + (int)dis/2 + 1;
         for(int a = result->mlx.height/2 - dis/2 + 1; a < result->mlx.height &&  a <= max; a++)
         {
@@ -45,7 +53,7 @@ void draw_wall(t_mapinfo *result)
 
 void raycasting(t_mapinfo	*result)
 {
-    double radius = 0;
+    double radius;
     double i = result->p_direction - 0.5236;
     radius = 0;
     int in = 0;
@@ -81,7 +89,7 @@ void raycasting(t_mapinfo	*result)
     draw_wall(result);
 }
 
-void draw_nowall(t_mapinfo *result)
+void    draw_nowall(t_mapinfo *result)
 {
     int i;
     int j;
@@ -93,26 +101,25 @@ void draw_nowall(t_mapinfo *result)
         j = 0;
         while(j < result->mlx.width)
         {
-            my_mlx_pixel_put(result,j,i,0x76cce8);
+            my_mlx_pixel_put(result,j,i,result->ceil);
             j++;
         }
         i++;
     }
 }
 
-void draw_flor(t_mapinfo *result)
+void    draw_flor(t_mapinfo *result)
 {
     int i;
     int j;
 
     i = result->mlx.height/2;
-    j = 0;
     while(i < result->mlx.height)
     {
         j = 0;
         while(j < result->mlx.width)
         {
-            my_mlx_pixel_put(result,j,i,0xFFFFFF);
+            my_mlx_pixel_put(result,j,i,result->floor);
             j++;
         }
         i++;
@@ -168,16 +175,46 @@ void left(t_mapinfo	*result)
     result->active= 1;
 }
 
+void move_left(t_mapinfo	*result)
+{        
+     
+       
+    if (result->map[(int)((result->p_y - 20 * sin(M_PI/2 + result->p_direction))/64)][(int)(result->p_x - 20 * cos(M_PI/2 + result->p_direction))/64] != '1')
+    { 
+      result->p_x -= 15 * cos(M_PI/2 + result->p_direction); 
+      result->p_y -= 15 * sin(M_PI/2 + result->p_direction);
+      result->active = 1;
+    }
+}
+
+void move_right(t_mapinfo	*result)
+{         
+    if (result->map[(int)((result->p_y + 20 * sin(M_PI/2 + result->p_direction))/64)][(int)(result->p_x + 20 * cos(M_PI/2 + result->p_direction))/64] != '1')
+    { 
+      result->p_x += 15 * cos(M_PI/2 + result->p_direction); 
+      result->p_y += 15 * sin(M_PI/2 + result->p_direction);
+      result->active = 1;
+    }
+}
 int move(int key ,t_mapinfo	*result)
 {   
-    if (key == KEY_UP)
+    if (key == KEY_UP || key == KEY_W)
         up(result);
-    if (key == KEY_DOWN)
+    else if (key == KEY_DOWN || key == KEY_S)
         down(result);
-    if (key == KEY_RIGHT)
+    else if (key == KEY_RIGHT)
         right(result);
-    if (key == KEY_LEFT)
+    else if (key == KEY_LEFT)
         left(result);
+    else if (key == KEY_ESC)
+    {
+        mlx_destroy_window(result->mlx.ptr,result->mlx.win);
+	    exit(0);
+    }
+    else if (key == KEY_A)
+        move_left(result);
+    else if (key == KEY_D)
+        move_right(result);
     return 1;
 }
 
@@ -211,6 +248,7 @@ void ft_main	(t_mapinfo	*result)
     result->data.addr = (int *)mlx_get_data_addr(result->data.img, &result->data.bits_per_pixel, &result->data.line_length,&result->data.endian);
     init_img(result);
 	mlx_hook(result->mlx.win, 2, 0, move, result);
+    mlx_hook(result->mlx.win, 17, 0, ft_close, result);
     mlx_loop_hook(result->mlx.ptr, update, result);
     mlx_loop(result->mlx.ptr);
 }
