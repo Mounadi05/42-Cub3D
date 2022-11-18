@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
+/*   By: ytaya <ytaya@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:26:12 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/18 03:43:01 by mounadi05        ###   ########.fr       */
+/*   Updated: 2022/11/18 04:06:49 by ytaya            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ typedef struct s_wall
 }			t_wall;
 typedef struct s_point
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
 }			t_point;
 typedef struct s_mlx
 {
@@ -193,4 +193,6 @@ void		draw_nowall(t_mapinfo *result);
 void		draw_flor(t_mapinfo *result);
 void		raycasting(t_mapinfo *result);
 void		my_mlx_pixel_put(t_mapinfo *result, int x, int y, int color);
+void		*_mlx_xpm_file_to_image(void *mlx_ptr, char *filename, int *width,
+				int *height);
 #endif

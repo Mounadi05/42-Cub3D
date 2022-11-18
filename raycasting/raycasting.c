@@ -6,7 +6,7 @@
 /*   By: ytaya <ytaya@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 02:23:05 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/18 02:34:47 by ytaya            ###   ########.fr       */
+/*   Updated: 2022/11/18 04:07:02 by ytaya            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_main(t_mapinfo *result)
 	mlx_loop(result->mlx.ptr);
 }
 
-void	init_img(t_mapinfo *result)
+void	init_img(t_mapinfo *r)
 {
 	int	h;
 	int	w;
@@ -41,21 +41,21 @@ void	init_img(t_mapinfo *result)
 
 	h = 64;
 	w = 64;
-	result->img_wall_no = mlx_xpm_file_to_image(result->mlx.ptr, result->no, &h,
+	r->img_wall_no = _mlx_xpm_file_to_image(r->mlx.ptr, r->no, &h,
 			&w);
-	result->add_wall_no = (int *)mlx_get_data_addr(result->img_wall_no,
+	r->add_wall_no = (int *)mlx_get_data_addr(r->img_wall_no,
 			&bits_per_pixel, &line_length, &endian);
-	result->img_wall_so = mlx_xpm_file_to_image(result->mlx.ptr, result->so, &h,
+	r->img_wall_so = _mlx_xpm_file_to_image(r->mlx.ptr, r->so, &h,
 			&w);
-	result->add_wall_so = (int *)mlx_get_data_addr(result->img_wall_so,
+	r->add_wall_so = (int *)mlx_get_data_addr(r->img_wall_so,
 			&bits_per_pixel, &line_length, &endian);
-	result->img_wall_we = mlx_xpm_file_to_image(result->mlx.ptr, result->we, &h,
+	r->img_wall_we = _mlx_xpm_file_to_image(r->mlx.ptr, r->we, &h,
 			&w);
-	result->add_wall_we = (int *)mlx_get_data_addr(result->img_wall_we,
+	r->add_wall_we = (int *)mlx_get_data_addr(r->img_wall_we,
 			&bits_per_pixel, &line_length, &endian);
-	result->img_wall_ea = mlx_xpm_file_to_image(result->mlx.ptr, result->ea, &h,
+	r->img_wall_ea = _mlx_xpm_file_to_image(r->mlx.ptr, r->ea, &h,
 			&w);
-	result->add_wall_ea = (int *)mlx_get_data_addr(result->img_wall_ea,
+	r->add_wall_ea = (int *)mlx_get_data_addr(r->img_wall_ea,
 			&bits_per_pixel, &line_length, &endian);
 }
 

@@ -20,6 +20,22 @@ libft = 	libft/ft_atoi.c\
 lib = libft.a
 name = cub3D
 mlx = -lmlx -framework OpenGL -framework AppKit
+CC = gcc -Wall -Wextra -Werror
+obj = $(src:.c=.o)
 
-all :
-	gcc  -Wall -Wextra -Werror -O3 $(mlx) $(src) $(libft) cub3d.c   -o $(name)  
+
+all : $(name)
+
+%.o: %.c
+	$(CC) -c $< -o $@
+
+$(name) : $(obj)
+	$(CC) -O3 $(mlx) $(src) $(libft) cub3d.c  -o $(name)
+
+clean:
+	rm -rf $(obj)
+
+fclean: clean
+	rm -rf $(name)
+
+re: fclean $(name)

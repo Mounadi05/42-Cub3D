@@ -6,7 +6,7 @@
 /*   By: ytaya <ytaya@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:19:29 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/10 06:55:51 by ytaya            ###   ########.fr       */
+/*   Updated: 2022/11/18 04:15:39 by ytaya            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_bool	read6info(t_mapinfo **param, int fd)
 		line = get_next_line(fd);
 		if (!line)
 		{
-			printf("Uncomplete info\n");
+			printf_error("uncomplete info!");
 			return (false);
 		}
 		if (line && !is_empty(line))

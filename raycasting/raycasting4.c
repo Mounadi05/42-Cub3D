@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
+/*   By: ytaya <ytaya@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 02:04:49 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/18 03:42:12 by mounadi05        ###   ########.fr       */
+/*   Updated: 2022/11/18 04:08:28 by ytaya            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ void	my_mlx_pixel_put(t_mapinfo *result, int x, int y, int color)
 		result->data.addr[y * result->mlx.width + x] = color;
 }
 
-static	int	ft_norm(t_mapinfo *r, double *ra, double *i, int *in)
+static int	ft_norm(t_mapinfo *r, double *ra, double *i, int *in)
 {
-	if (r->map[(int)(r->p_y + sin(*i) * (*ra - 1))
-		/ 64][(int)(r->p_x + cos(*i) * *ra) / 64]
-			&& r->map[(int)(r->p_y + sin(*i) * (*ra - 1))
-			/ 64][(int)(r->p_x + cos(*i) * *ra) / 64] == '1')
+	if (r->map[(int)(r->p_y + sin(*i) * (*ra - 1)) / 64][(int)(r->p_x + cos(*i)
+			* *ra) / 64] && r->map[(int)(r->p_y + sin(*i) * (*ra - 1))
+		/ 64][(int)(r->p_x + cos(*i) * *ra) / 64] == '1')
 	{
 		r->d_wall[*in] = *ra * cos(r->p_direction - *i);
 		r->w_x[*in] = (int)(r->p_y + sin(*i) * *ra);
@@ -37,10 +36,9 @@ static	int	ft_norm(t_mapinfo *r, double *ra, double *i, int *in)
 		r->point_x[(*in)++] = (int)(r->p_x + cos(*i) * *ra) % 64;
 		return (0);
 	}
-	else if (r->map[(int)(r->p_y + sin(*i) * (*ra))
-		/ 64][(int)(r->p_x + cos(*i) * (*ra - 1)) / 64]
-			&& r->map[(int)(r->p_y + sin(*i) * *ra) / 64]
-			[(int)(r->p_x + cos(*i) * (*ra - 1)) / 64] == '1')
+	else if (r->map[(int)(r->p_y + sin(*i) * (*ra)) / 64][(int)(r->p_x + cos(*i)
+				* (*ra - 1)) / 64] && r->map[(int)(r->p_y + sin(*i) * *ra)
+			/ 64][(int)(r->p_x + cos(*i) * (*ra - 1)) / 64] == '1')
 	{
 		r->d_wall[*in] = *ra * cos(r->p_direction - *i);
 		r->w_x[*in] = (int)(r->p_x + cos(*i) * *ra);
@@ -65,10 +63,10 @@ void	raycasting(t_mapinfo *r)
 		ra = 0;
 		while (1)
 		{
-			if (r->map[(int)(r->p_y + sin(i) * ra)
-				/ 64][(int)(r->p_x + cos(i) * ra) / 64]
-			&& r->map[(int)(r->p_y + sin(i) * ra)
-				/ 64][(int)(r->p_x + cos(i) * ra) / 64] != '1');
+			if (r->map[(int)(r->p_y + sin(i) * ra) / 64][(int)(r->p_x + cos(i)
+					* ra) / 64] && r->map[(int)(r->p_y + sin(i) * ra)
+				/ 64][(int)(r->p_x + cos(i) * ra) / 64] != '1')
+				;
 			else if (!ft_norm(r, &ra, &i, &in))
 				break ;
 			ra += 1;
@@ -77,4 +75,15 @@ void	raycasting(t_mapinfo *r)
 		r->len_ry++;
 	}
 	draw_wall(r);
+}
+
+void	*_mlx_xpm_file_to_image(void *mlx_ptr, char *filename, int *width,
+		int *height)
+{
+	void	*result;
+
+	result = mlx_xpm_file_to_image(mlx_ptr, filename, width, height);
+	if (!result)
+		printf_error("bad xpm file!");
+	return (result);
 }
