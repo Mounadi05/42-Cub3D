@@ -1,11 +1,15 @@
-src = 	ft_main.c\
-			parsing/parsing.c\
+src = 		parsing/parsing.c\
 			parsing/parsing_helper1.c\
 			parsing/parsing_helper2.c\
 			parsing/parsing_helper3.c\
 			parsing/parsing_helper4.c\
 			parsing/parsing_helper5.c\
-			parsing/parsing_helper6.c
+			parsing/parsing_helper6.c\
+			raycasting/raycasting.c\
+			raycasting/raycasting1.c\
+			raycasting/raycasting2.c\
+			raycasting/raycasting3.c\
+			raycasting/raycasting4.c\
 
 libft = 	libft/ft_atoi.c\
 			libft/ft_get_next_line_utils.c\

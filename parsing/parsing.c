@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
+/*   By: ytaya <ytaya@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:09:51 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/18 01:56:31 by mounadi05        ###   ########.fr       */
+/*   Updated: 2022/11/18 02:30:31 by ytaya            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,6 @@ int	valid(char **map, int j, int i, int maphight)
 	return (1);
 }
 
-void ft_color(t_mapinfo *result)
-{   
-    result->floor = ((result->f->r & 0xff) << 16) + ((result->f->g & 0xff) << 8) + (result->f->b & 0xff);
-	result->ceil = ((result->c->r & 0xff) << 16) + ((result->c->g & 0xff) << 8) + (result->c->b & 0xff);
-}		
-
 t_mapinfo	*map_parse(char *filename)
 {
 	t_mapinfo	*result;
@@ -111,11 +105,6 @@ t_mapinfo	*map_parse(char *filename)
 			readmap(result, fd);
 			if (valid_map(result->map) && check_player(&result))
 			{
-				result->active = 1;
-				result->d_wall = malloc(1200 * 8);
-    			result->w_x = malloc(1200 * 8);
-    			result->point_y = malloc(1200 * 8);
-    		    result->point_x = malloc(1200 * 8);
 				ft_color(result);
 				ft_main(result);
 			}

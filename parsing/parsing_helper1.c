@@ -6,7 +6,7 @@
 /*   By: ytaya <ytaya@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:15:19 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/17 03:35:22 by ytaya            ###   ########.fr       */
+/*   Updated: 2022/11/18 02:29:47 by ytaya            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ void	int_mapinfo(t_mapinfo *param)
 		param->p_x = -1;
 		param->p_y = -1;
 		param->p_direction = 4;
+		param->active = 1;
+		param->d_wall = malloc(1200 * 8);
+		param->w_x = malloc(1200 * 8);
+		param->point_y = malloc(1200 * 8);
+		param->point_x = malloc(1200 * 8);
 	}
 }
 
