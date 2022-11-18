@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ytaya <ytaya@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 02:25:12 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/18 02:34:47 by ytaya            ###   ########.fr       */
+/*   Updated: 2022/11/18 03:17:08 by mounadi05        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,17 @@ void	draw_flor(t_mapinfo *result)
 	}
 }
 
-int	draw_xmp(t_mapinfo *result, int x, int y, double v_x, double v_y)
+int	draw_xmp(t_mapinfo *result, int x, int y, t_point *p)
 {
 	if (x % 64 < 0)
 		x = 0;
 	if (y % 64 < 0)
 		y = 0;
-	if (v_y == 0)
+	if (p->y == 0)
 		return (result->add_wall_no[(y % 64) * 64 + (x % 64)]);
-	else if (v_y == 63)
+	else if (p->y == 63)
 		return (result->add_wall_so[(y % 64) * 64 + (x % 64)]);
-	else if (v_x == 0)
+	else if (p->x == 0)
 		return (result->add_wall_we[(y % 64) * 64 + (x % 64)]);
 	else
 		return (result->add_wall_ea[(y % 64) * 64 + (x % 64)]);
@@ -70,31 +70,31 @@ int	c_color(int r, int g, int b)
 	return (((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff));
 }
 
-void	draw_wall(t_mapinfo *result)
+void	draw_wall(t_mapinfo *r)
 {
-	double	dis;
-	int		index;
-	int		y;
-	int		wall;
-	int		max;
+	t_wall	w;
+	t_point	p;
 
-	index = 0;
-	wall = (result->mlx.width / result->len_ry) + 1;
-	while (index < result->len_ry)
+	w.index = -1;
+	w.wall = (r->mlx.width / r->len_ry) + 1;
+	while (++w.index < r->len_ry)
 	{
-		dis = (64 / floorf(result->d_wall[index])) * (result->mlx.height
+		w.dis = (64 / floorf(r->d_wall[w.index])) * (r->mlx.height
 				/ tan(0.53));
-		max = result->mlx.height / 2 + (int)dis / 2 + 1;
-		for (int a = result->mlx.height / 2 - dis / 2
-				+ 1; a < result->mlx.height && a <= max; a++)
+		w.max = r->mlx.height / 2 + (int)w.dis / 2 + 1;
+		w.a = r->mlx.height / 2 - w.dis / 2;
+		while (++w.a < r->mlx.height && w.a <= w.max)
 		{
-			y = (a - (result->mlx.height / 2 - (dis / 2) + 1)) * (64.0 / dis);
-			for (int b = 0; b < wall && b + (index
-						* wall) < result->mlx.width; b++)
-				my_mlx_pixel_put(result, b + (index * wall), a, draw_xmp(result,
-							result->w_x[index], y, result->point_x[index],
-							result->point_y[index]));
+			w.y = (w.a - (r->mlx.height / 2 - (w.dis / 2) + 1))
+				* (64.0 / w.dis);
+			w.b = -1;
+			p.x = r->point_x[w.index];
+			p.y = r->point_y[w.index];
+			while (++w.b < w.wall && w.b + (w.index * w.wall) < r->mlx.width)
+			{
+				my_mlx_pixel_put(r, w.b + (w.index * w.wall), w.a,
+					draw_xmp(r, r->w_x[w.index], w.y, &p));
+			}
 		}
-		index++;
 	}
 }

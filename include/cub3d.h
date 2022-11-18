@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ytaya <ytaya@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:26:12 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/18 02:44:24 by ytaya            ###   ########.fr       */
+/*   Updated: 2022/11/18 03:43:01 by mounadi05        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,21 @@ typedef struct s_data
 	int		endian;
 }			t_data;
 
+typedef struct s_wall
+{
+	double	dis;
+	int		index;
+	int		y;
+	int		wall;
+	int		max;
+	int		a;
+	int		b;
+}			t_wall;
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}			t_point;
 typedef struct s_mlx
 {
 	void	*ptr;

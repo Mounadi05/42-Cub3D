@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_main.c                                          :+:      :+:    :+:   */
+/*   raycasting4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ytaya <ytaya@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mounadi05 <mounadi2015@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 02:04:49 by ytaya             #+#    #+#             */
-/*   Updated: 2022/11/18 02:34:47 by ytaya            ###   ########.fr       */
+/*   Updated: 2022/11/18 03:42:12 by mounadi05        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,57 +24,57 @@ void	my_mlx_pixel_put(t_mapinfo *result, int x, int y, int color)
 		result->data.addr[y * result->mlx.width + x] = color;
 }
 
-void	raycasting(t_mapinfo *result)
+static	int	ft_norm(t_mapinfo *r, double *ra, double *i, int *in)
 {
-	double	radius;
+	if (r->map[(int)(r->p_y + sin(*i) * (*ra - 1))
+		/ 64][(int)(r->p_x + cos(*i) * *ra) / 64]
+			&& r->map[(int)(r->p_y + sin(*i) * (*ra - 1))
+			/ 64][(int)(r->p_x + cos(*i) * *ra) / 64] == '1')
+	{
+		r->d_wall[*in] = *ra * cos(r->p_direction - *i);
+		r->w_x[*in] = (int)(r->p_y + sin(*i) * *ra);
+		r->point_y[*in] = (int)(r->p_y + sin(*i) * *ra) % 64;
+		r->point_x[(*in)++] = (int)(r->p_x + cos(*i) * *ra) % 64;
+		return (0);
+	}
+	else if (r->map[(int)(r->p_y + sin(*i) * (*ra))
+		/ 64][(int)(r->p_x + cos(*i) * (*ra - 1)) / 64]
+			&& r->map[(int)(r->p_y + sin(*i) * *ra) / 64]
+			[(int)(r->p_x + cos(*i) * (*ra - 1)) / 64] == '1')
+	{
+		r->d_wall[*in] = *ra * cos(r->p_direction - *i);
+		r->w_x[*in] = (int)(r->p_x + cos(*i) * *ra);
+		r->point_y[*in] = (int)(r->p_y + sin(*i) * *ra) % 64;
+		r->point_x[(*in)++] = (int)(r->p_x + cos(*i) * *ra) % 64;
+		return (0);
+	}
+	return (1);
+}
+
+void	raycasting(t_mapinfo *r)
+{
+	double	ra;
 	double	i;
 	int		in;
-	int		a;
 
-	i = result->p_direction - 0.5236;
-	radius = 0;
+	i = r->p_direction - 0.5236;
 	in = 0;
-	a = 0;
-	while (i < result->p_direction + 0.5236)
+	r->len_ry = 0;
+	while (i < r->p_direction + 0.5236)
 	{
-		radius = 0;
+		ra = 0;
 		while (1)
 		{
-			if (result->map[(int)(result->p_y + sin(i) * radius)
-				/ 64][(int)(result->p_x + cos(i) * radius) / 64]
-				&& result->map[(int)(result->p_y + sin(i) * radius)
-				/ 64][(int)(result->p_x + cos(i) * radius) / 64] != '1')
-				;
-			else if (result->map[(int)(result->p_y + sin(i) * (radius - 1))
-				/ 64][(int)(result->p_x + cos(i) * (radius)) / 64]
-					&& result->map[(int)(result->p_y + sin(i) * (radius - 1))
-					/ 64][(int)(result->p_x + cos(i) * (radius)) / 64] == '1')
-			{
-				result->d_wall[in] = radius * cos(result->p_direction - i);
-				result->w_x[in] = (int)(result->p_y + sin(i) * (radius));
-				result->point_y[in] = (int)(result->p_y + sin(i) * radius) % 64;
-				result->point_x[in++] = (int)(result->p_x + cos(i) * radius)
-					% 64;
+			if (r->map[(int)(r->p_y + sin(i) * ra)
+				/ 64][(int)(r->p_x + cos(i) * ra) / 64]
+			&& r->map[(int)(r->p_y + sin(i) * ra)
+				/ 64][(int)(r->p_x + cos(i) * ra) / 64] != '1');
+			else if (!ft_norm(r, &ra, &i, &in))
 				break ;
-			}
-			else if (result->map[(int)(result->p_y + sin(i) * (radius))
-				/ 64][(int)(result->p_x + cos(i) * (radius - 1)) / 64]
-					&& result->map[(int)(result->p_y + sin(i) * (radius))
-					/ 64][(int)(result->p_x + cos(i) * (radius - 1))
-					/ 64] == '1')
-			{
-				result->d_wall[in] = radius * cos(result->p_direction - i);
-				result->w_x[in] = (int)(result->p_x + cos(i) * (radius));
-				result->point_y[in] = (int)(result->p_y + sin(i) * radius) % 64;
-				result->point_x[in++] = (int)(result->p_x + cos(i) * radius)
-					% 64;
-				break ;
-			}
-			radius += 1;
+			ra += 1;
 		}
 		i += 0.0015;
-		a++;
+		r->len_ry++;
 	}
-	result->len_ry = a;
-	draw_wall(result);
+	draw_wall(r);
 }
